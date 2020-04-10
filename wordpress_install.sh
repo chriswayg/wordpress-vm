@@ -29,9 +29,10 @@ fi
 ram_check 1 Wordpress
 cpu_check 1 Wordpress
 
+#TODO: skip
 # Set locales
-apt install language-pack-en-base -y
-sudo locale-gen "sv_SE.UTF-8" && sudo dpkg-reconfigure --frontend=noninteractive locales
+#apt install language-pack-en-base -y
+#sudo locale-gen "sv_SE.UTF-8" && sudo dpkg-reconfigure --frontend=noninteractive locales
 
 # Show current user
 download_static_script adduser
@@ -68,6 +69,7 @@ then
 fi
 
 # Change DNS
+#TODO change nameservers
 install_if_not resolvconf
 yes | dpkg-reconfigure --frontend=noninteractive resolvconf
 echo "nameserver 9.9.9.9" > /etc/resolvconf/resolv.conf.d/base
@@ -165,6 +167,7 @@ apt -y purge expect
 # Write a new MariaDB config
 run_static_script new_etc_mycnf
 
+#TODO skip this?
 # Install VM-tools
 apt install open-vm-tools -y
 
@@ -850,6 +853,7 @@ apt autoremove -y
 apt autoclean
 find /root "/home/$UNIXUSER" -type f \( -name '*.sh*' -o -name '*.html*' -o -name '*.tar*' -o -name '*.zip*' \) -delete
 
+#TODO skip this
 # Install virtual kernels for Hyper-V
 # Kernel 4.15
 apt install -y --install-recommends \
@@ -862,6 +866,7 @@ linux-image-extra-virtual
 # Force MOTD to show correct number of updates
 sudo /usr/lib/update-notifier/update-motd-updates-available --force
 
+#TODO check?
 # Prefer IPv6
 sed -i "s|precedence ::ffff:0:0/96  100|#precedence ::ffff:0:0/96  100|g" /etc/gai.conf
 
