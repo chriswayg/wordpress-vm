@@ -124,7 +124,7 @@ msg_box "Copying old netplan.io config files file to:
 cat << ENTERIP
 +----------------------------------------------------------+
 |    Please enter the static IP address you want to set,   |
-|    including the subnet. Example: 192.168.1.100/24       |
+|    including the subnet. Example: 10.10.10.220/24       |
 +----------------------------------------------------------+
 ENTERIP
     echo
@@ -135,14 +135,14 @@ ENTERIP
 cat << ENTERGATEWAY
 +----------------------------------------------------------+
 |    Please enter the gateway address you want to set,     |
-|    Example: 192.168.1.1                                  |
+|    Example: 10.10.10.1                                  |
 +----------------------------------------------------------+
 ENTERGATEWAY
     echo
     read -r GATEWAYIP
     echo
 
-    # Create the Static IP file
+    # Create the Static IP file (use servdiscount DNS)
 cat <<-IPCONFIG > /etc/netplan/01-netcfg.yaml
 network:
    version: 2
@@ -154,7 +154,7 @@ network:
          addresses: [$LANIP] # client IP address
          gateway4: $GATEWAYIP # gateway address
          nameservers:
-           addresses: [9.9.9.9,149.112.112.112] #name servers
+           addresses: [62.141.32.5,62.141.32.4,62.141.32.3] #name servers
 IPCONFIG
 
 msg_box "These are your settings, please make sure they are correct:
@@ -214,7 +214,7 @@ msg_box"This script will do the final setup for you
 - Upgrade the system
 - Activate SSL (Let's Encrypt)
 - Install Adminer
-- Change keyboard setup (current is Swedish)
+- Change keyboard setup
 - Change system timezone
 - Set new password to the Linux system (user: wordpress)
 
@@ -489,7 +489,7 @@ TIPS & TRICKS:
 1. Publish your server online: https://goo.gl/iUGE2U
 2. To update this VM just type: sudo bash /var/scripts/update.sh
 3. Change IP to something outside DHCP: sudo nano /etc/netplan/01-netcfg.yaml
-4. To allow access to wp-login.php, please edit your nginx virtual hosts file.
+4. To change access to wp-login.php, please edit your nginx virtual hosts file.
    You can find it here: $HTTP_CONF
 
  ######################### T&M Hansson IT - $(date +"%Y") #########################  "
