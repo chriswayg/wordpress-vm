@@ -49,7 +49,7 @@ do
 cat << ENTERIP
 +-------------------------------------------------------------+
 |    Please enter the static IP address you want to set,      |
-|    including the subnet. Like this: 192.168.1.100/24        |
+|    including the subnet. Like this: 10.10.10.220/24         |
 +-------------------------------------------------------------+
 ENTERIP
 echo
@@ -68,7 +68,7 @@ do
 cat << ENTERGATEWAY
 +-------------------------------------------------------------+
 |    Please enter the gateway address you want to set,        |
-|    Like this: 192.168.1.1                                   |
+|    Like this: 10.10.10.1                                    |
 +-------------------------------------------------------------+
 ENTERGATEWAY
 echo
