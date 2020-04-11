@@ -1,4 +1,6 @@
 #!/bin/bash
+# TODO: replace all https://raw.githubusercontent.com/techandme/wordpress-vm/master/lib.sh
+# with              https://raw.githubusercontent.com/chriswayg/wordpress-vm/master/lib.sh
 
 # T&M Hansson IT AB © - 2019, https://www.hanssonit.se/
 
