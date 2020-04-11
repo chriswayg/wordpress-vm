@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/techandme/wordpress-vm.svg?branch=master)](https://travis-ci.org/techandme/wordpress-vm)
 
 ### modified scripts for use on Proxmox KVM 
-Using this VM template: [Ubuntu 18.04 (bionic) Packer Template](https://github.com/chriswayg/packer-proxmox-templates/tree/master/ubuntu-18.04-amd64-proxmox)
+To install on this VM template: Vanilla [Ubuntu 18.04 (bionic) Packer Template](https://github.com/chriswayg/packer-proxmox-templates/tree/master/ubuntu-18.04-amd64-proxmox)
 
 ### https://www.techandme.se
 ### https://www.hanssonit.se/wordpress-vm/
