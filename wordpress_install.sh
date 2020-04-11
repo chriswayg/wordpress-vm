@@ -67,12 +67,12 @@ then
     mkdir -p "$SCRIPTS"
 fi
 
-# Change DNS (use servdiscount)
-install_if_not resolvconf
-yes | dpkg-reconfigure --frontend=noninteractive resolvconf
-echo "nameserver 62.141.32.5" > /etc/resolvconf/resolv.conf.d/base
-echo "nameserver 62.141.32.4" >> /etc/resolvconf/resolv.conf.d/base
-echo "nameserver 62.141.32.3" >> /etc/resolvconf/resolv.conf.d/base
+# Change DNS (use servdiscount or SKIP)
+#install_if_not resolvconf
+#yes | dpkg-reconfigure --frontend=noninteractive resolvconf
+#echo "nameserver 62.141.32.5" > /etc/resolvconf/resolv.conf.d/base
+#echo "nameserver 62.141.32.4" >> /etc/resolvconf/resolv.conf.d/base
+#echo "nameserver 62.141.32.3" >> /etc/resolvconf/resolv.conf.d/base
 
 # Check network
 test_connection
