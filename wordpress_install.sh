@@ -29,8 +29,7 @@ fi
 ram_check 1 Wordpress
 cpu_check 1 Wordpress
 
-#TODO: skip
-# Set locales
+# Set locales (SKIP)
 #apt install language-pack-en-base -y
 #sudo locale-gen "sv_SE.UTF-8" && sudo dpkg-reconfigure --frontend=noninteractive locales
 
@@ -68,12 +67,12 @@ then
     mkdir -p "$SCRIPTS"
 fi
 
-# Change DNS
-#TODO change nameservers
+# Change DNS (use servdiscount)
 install_if_not resolvconf
 yes | dpkg-reconfigure --frontend=noninteractive resolvconf
-echo "nameserver 9.9.9.9" > /etc/resolvconf/resolv.conf.d/base
-echo "nameserver 149.112.112.112" >> /etc/resolvconf/resolv.conf.d/base
+echo "nameserver 62.141.32.5" > /etc/resolvconf/resolv.conf.d/base
+echo "nameserver 62.141.32.4" >> /etc/resolvconf/resolv.conf.d/base
+echo "nameserver 62.141.32.3" >> /etc/resolvconf/resolv.conf.d/base
 
 # Check network
 test_connection
@@ -167,9 +166,8 @@ apt -y purge expect
 # Write a new MariaDB config
 run_static_script new_etc_mycnf
 
-#TODO skip this?
-# Install VM-tools
-apt install open-vm-tools -y
+# Install VM-tools (SKIP)
+#apt install open-vm-tools -y
 
 # Install Nginx
 check_command yes | add-apt-repository ppa:nginx/stable
@@ -505,12 +503,14 @@ server {
                 log_not_found off;
                 access_log off;
     }
-
+  
     location ~* \.php$ {
         location ~ \wp-login.php$ {
-                    allow $GATEWAY/24;
+	            # Enable wp-admin from anywhere
+                    #allow $GATEWAY/24;
 		    #allow $ADDRESS;
 		    #allow $WAN4IP;
+		    allow all;
                     deny all;
                     include fastcgi.conf;
                     fastcgi_intercept_errors on;
@@ -853,20 +853,18 @@ apt autoremove -y
 apt autoclean
 find /root "/home/$UNIXUSER" -type f \( -name '*.sh*' -o -name '*.html*' -o -name '*.tar*' -o -name '*.zip*' \) -delete
 
-#TODO skip this
-# Install virtual kernels for Hyper-V
+# Install virtual kernels for Hyper-V (SKIP - TODO: check)
 # Kernel 4.15
-apt install -y --install-recommends \
-linux-virtual \
-linux-tools-virtual \
-linux-cloud-tools-virtual \
-linux-image-virtual \
-linux-image-extra-virtual
+#apt install -y --install-recommends \
+#linux-virtual \
+#linux-tools-virtual \
+#linux-cloud-tools-virtual \
+#linux-image-virtual \
+#linux-image-extra-virtual
 
 # Force MOTD to show correct number of updates
 sudo /usr/lib/update-notifier/update-motd-updates-available --force
 
-#TODO check?
 # Prefer IPv6
 sed -i "s|precedence ::ffff:0:0/96  100|#precedence ::ffff:0:0/96  100|g" /etc/gai.conf
 
