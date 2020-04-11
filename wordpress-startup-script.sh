@@ -124,7 +124,7 @@ msg_box "Copying old netplan.io config files file to:
 cat << ENTERIP
 +----------------------------------------------------------+
 |    Please enter the static IP address you want to set,   |
-|    including the subnet. Example: 10.10.10.220/24       |
+|    including the subnet. Example: 10.10.10.220/24        |
 +----------------------------------------------------------+
 ENTERIP
     echo
@@ -135,7 +135,7 @@ ENTERIP
 cat << ENTERGATEWAY
 +----------------------------------------------------------+
 |    Please enter the gateway address you want to set,     |
-|    Example: 10.10.10.1                                  |
+|    Example: 10.10.10.1                                   |
 +----------------------------------------------------------+
 ENTERGATEWAY
     echo
