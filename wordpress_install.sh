@@ -508,9 +508,9 @@ server {
         location ~ \wp-login.php$ {
 	            # Enable wp-admin from anywhere
                     #allow $GATEWAY/24;
-		    #allow $ADDRESS;
-		    #allow $WAN4IP;
-		    allow all;
+		                #allow $ADDRESS;
+		                #allow $WAN4IP;
+		                allow all;
                     deny all;
                     include fastcgi.conf;
                     fastcgi_intercept_errors on;
@@ -587,9 +587,10 @@ server {
 
     location ~* \.php$ {
         location ~ \wp-login.php$ {
-                    allow $GATEWAY/24;
-		    #allow $ADDRESS;
-		    #allow $WAN4IP;
+                    #allow $GATEWAY/24;
+		                #allow $ADDRESS;
+		                #allow $WAN4IP;
+                    allow all;
                     deny all;
                     include fastcgi.conf;
                     fastcgi_intercept_errors on;
