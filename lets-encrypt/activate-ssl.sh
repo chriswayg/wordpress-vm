@@ -30,7 +30,7 @@ You also have to open port 80+443 against this VMs
 IP address: $ADDRESS - do this in your router/FW.
 Here is a guide: https://goo.gl/Uyuf65
 
-You can find the script here: $SCRIPTS/activate-ssl.sh 
+You can find the script here: $SCRIPTS/activate-ssl.sh
 and you can run it after you got a domain.
 
 Please don't run this script if you don't have
@@ -55,7 +55,7 @@ if [[ "yes" == $(ask_yes_or_no "Do you have a domain that you will use?") ]]
 then
     sleep 1
 else
-msg_box "OK, but if you want to run this script later, 
+msg_box "OK, but if you want to run this script later,
 just type: sudo bash /var/scripts/activate-ssl.sh"
     exit
 fi
@@ -136,23 +136,23 @@ server {
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    
+
     ## Your website name goes here.
     server_name $domain;
     ## Your only path reference.
     root $WPATH;
     ## This should be in your http block and if it is, it's not needed here.
     index index.php;
-    
+
     resolver $GATEWAY;
-    
+
      ## Show real IP behind proxy (change to the proxy IP)
 #    set_real_ip_from  $GATEWAY/24;
 #    set_real_ip_from  $GATEWAY;
 #    set_real_ip_from  2001:0db8::/32;
 #    real_ip_header    X-Forwarded-For;
 #    real_ip_recursive on;
-    
+
     # certs sent to the client in SERVER HELLO are concatenated in ssl_certificate
     ssl_certificate $CERTFILES/$domain/fullchain.pem;
     ssl_certificate_key $CERTFILES/$domain/privkey.pem;
@@ -171,7 +171,7 @@ server {
     # fetch OCSP records from URL in ssl_certificate and cache them
     ssl_stapling on;
     ssl_stapling_verify on;
-    
+
     location / {
         try_files \$uri \$uri/ /index.php?\$args;
             # https://veerasundar.com/blog/2014/09/setting-expires-header-for-assets-nginx/
@@ -188,7 +188,7 @@ server {
     }
     location ~ /\\. {
         access_log off;
-        log_not_found off; 
+        log_not_found off;
         deny all;
     }
     location = /favicon.ico {
@@ -202,13 +202,14 @@ server {
     }
     location ~* \.php$ {
         location ~ \wp-login.php$ {
-                    allow $GATEWAY/24;
-		    #allow $ADDRESS;
-		    #allow $WAN4IP;
+                    #allow $GATEWAY/24;
+		                #allow $ADDRESS;
+		                #allow $WAN4IP;
+                    allow all;
                     deny all;
                     include fastcgi.conf;
                     fastcgi_intercept_errors on;
-                    fastcgi_pass unix:/var/run/php/php7.2-fpm-wordpress.sock; 
+                    fastcgi_pass unix:/var/run/php/php7.2-fpm-wordpress.sock;
         }
                 fastcgi_split_path_info ^(.+\.php)(/.+)$;
                 try_files \$uri =404;
