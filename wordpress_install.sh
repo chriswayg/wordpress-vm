@@ -1,6 +1,4 @@
 #!/bin/bash
-# TODO: replace all https://raw.githubusercontent.com/techandme/wordpress-vm/master/lib.sh
-# with              https://raw.githubusercontent.com/chriswayg/wordpress-vm/master/lib.sh
 
 # T&M Hansson IT AB © - 2019, https://www.hanssonit.se/
 
@@ -10,7 +8,7 @@ sed -i "s|#precedence ::ffff:0:0/96  100|precedence ::ffff:0:0/96  100|g" /etc/g
 # shellcheck disable=2034,2059
 true
 # shellcheck source=lib.sh
-FIRST_IFACE=1 && CHECK_CURRENT_REPO=1 . <(curl -sL https://raw.githubusercontent.com/techandme/wordpress-vm/master/lib.sh)
+FIRST_IFACE=1 && CHECK_CURRENT_REPO=1 . <(curl -sL https://raw.githubusercontent.com/chriswayg/wordpress-vm/master/lib.sh)
 unset FIRST_IFACE
 unset CHECK_CURRENT_REPO
 
@@ -196,7 +194,7 @@ apt install -y \
 	php"$PHPVER"-cli \
 	php"$PHPVER"-zip \
 	php"$PHPVER"-curl
-	
+
 # Configure PHP
 sed -i "s|allow_url_fopen =.*|allow_url_fopen = On|g" /etc/php/"$PHPVER"/fpm/php.ini
 sed -i "s|max_execution_time =.*|max_execution_time = 360|g" /etc/php/"$PHPVER"/fpm/php.ini
@@ -213,7 +211,7 @@ check_command echo "$REDIS_PASS" > $REDISPTXT
 # Install Redis
 run_static_script redis-server-ubuntu
 
-# Enable igbinary for PHP 
+# Enable igbinary for PHP
 # https://github.com/igbinary/igbinary
 if is_this_installed "php$PHPVER"-dev
 then
@@ -240,7 +238,7 @@ then
     then
         msg_box "APCu PHP module installation failed"
         exit
-    else 
+    else
         print_text_in_color "$IGreen" "APCu PHP module installation OK!"
     fi
 {
@@ -270,7 +268,7 @@ mv wp-cli.phar /usr/local/bin/wp
 
 # Add www-data in sudoers
 {
-echo "# WP-CLI" 
+echo "# WP-CLI"
 echo "$SUDO_USER ALL=(www-data) NOPASSWD: /usr/local/bin/wp"
 echo "root ALL=(www-data) NOPASSWD: /usr/local/bin/wp"
 } >> /etc/sudoers
@@ -441,7 +439,7 @@ if [ ! -f $SSL_CONF ];
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    
+
     ## Your website name goes here.
     # server_name example.com;
     ## Your only path reference.
@@ -450,14 +448,14 @@ server {
     index index.php;
 
     resolver $GATEWAY;
-    
+
      ## Show real IP behind proxy (change to the proxy IP)
 #    set_real_ip_from  $GATEWAY/24;
 #    set_real_ip_from  $GATEWAY;
 #    set_real_ip_from  2001:0db8::/32;
 #    real_ip_header    X-Forwarded-For;
 #    real_ip_recursive on;
-    
+
     # certs sent to the client in SERVER HELLO are concatenated in ssl_certificate
     ssl_certificate /etc/ssl/certs/ssl-cert-snakeoil.pem;
     ssl_certificate_key /etc/ssl/private/ssl-cert-snakeoil.key;
@@ -484,14 +482,14 @@ server {
     ## verify chain of trust of OCSP response using Root CA and Intermediate certs
     # ssl_trusted_certificate /path/to/root_CA_cert_plus_intermediates;
 
-    
+
     location / {
-        try_files \$uri \$uri/ /index.php?\$args;        
+        try_files \$uri \$uri/ /index.php?\$args;
     }
-    
+
     location ~ /\\. {
         access_log off;
-        log_not_found off; 
+        log_not_found off;
         deny all;
     }
 
@@ -505,7 +503,7 @@ server {
                 log_not_found off;
                 access_log off;
     }
-  
+
     location ~* \.php$ {
         location ~ \wp-login.php$ {
 	            # Enable wp-admin from anywhere
@@ -516,7 +514,7 @@ server {
                     deny all;
                     include fastcgi.conf;
                     fastcgi_intercept_errors on;
-                    fastcgi_pass unix:/var/run/php/php7.2-fpm-wordpress.sock; 
+                    fastcgi_pass unix:/var/run/php/php7.2-fpm-wordpress.sock;
         }
                 fastcgi_split_path_info ^(.+\.php)(/.+)$;
                 try_files \$uri =404;
@@ -549,7 +547,7 @@ if [ ! -f $HTTP_CONF ];
 server {
     listen 80;
     listen [::]:80;
-    
+
     ## Your website name goes here.
     # server_name example.com;
     ## Your only path reference.
@@ -558,21 +556,21 @@ server {
     index index.php;
 
     resolver $GATEWAY;
-    
+
     ## Show real IP behind proxy (change to the proxy IP)
 #    set_real_ip_from  $GATEWAY/24;
 #    set_real_ip_from  $GATEWAY;
 #    set_real_ip_from  2001:0db8::/32;
 #    real_ip_header    X-Forwarded-For;
 #    real_ip_recursive on;
-    
+
     location / {
-        try_files \$uri \$uri/ /index.php?\$args;        
+        try_files \$uri \$uri/ /index.php?\$args;
     }
-    
+
     location ~ /\\. {
         access_log off;
-        log_not_found off; 
+        log_not_found off;
         deny all;
     }
 
@@ -586,7 +584,7 @@ server {
                 log_not_found off;
                 access_log off;
     }
-    
+
     location ~* \.php$ {
         location ~ \wp-login.php$ {
                     allow $GATEWAY/24;
@@ -595,7 +593,7 @@ server {
                     deny all;
                     include fastcgi.conf;
                     fastcgi_intercept_errors on;
-                    fastcgi_pass unix:/var/run/php/php7.2-fpm-wordpress.sock; 
+                    fastcgi_pass unix:/var/run/php/php7.2-fpm-wordpress.sock;
         }
                 fastcgi_split_path_info ^(.+\.php)(/.+)$;
                 try_files \$uri =404;
@@ -637,7 +635,7 @@ events {
 	multi_accept on;
 	use epoll;
 }
-	
+
 http {
 
 	##
@@ -685,7 +683,7 @@ http {
 	# gzip_proxied any;
 	# gzip_comp_level 6;
 	  gzip_buffers 16 4k;
-	# gzip_http_version 1.1;	
+	# gzip_http_version 1.1;
 	# gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
 
 	##
@@ -703,17 +701,17 @@ http {
 #mail {
 #	# See sample authentication script at:
 #	# http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript
-# 
+#
 #	# auth_http localhost/auth.php;
 #	# pop3_capabilities "TOP" "USER";
 #	# imap_capabilities "IMAP4rev1" "UIDPLUS";
-# 
+#
 #	server {
 #		listen     localhost:110;
 #		protocol   pop3;
 #		proxy      on;
 #	}
-# 
+#
 #	server {
 #		listen     localhost:143;
 #		protocol   imap;
