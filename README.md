@@ -109,3 +109,11 @@ Tested install on this VM template: Vanilla [Ubuntu 18.04 (bionic) Packer Templa
 #### Test it at
 
 https://www.example.org/wp-login.php
+
+
+#### Compare with VM-appliance supplied by hanssonit.se
+
+```
+# uncompress vmware archive, then use
+qm importdisk 10100 Wordpress_VM_www.hanssonit.se-disk1.vmdk local -format qcow2
+```
